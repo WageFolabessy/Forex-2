@@ -16,11 +16,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout _swipeRefreshLayout1;
     private RecyclerView _reRecyclerView1;
+    private TextView _timestampTextView;
 
 
     @Override
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         initSwipeRefreshLayout();
         _reRecyclerView1 = findViewById(R.id.recylerView1);
+        _timestampTextView = findViewById(R.id.timestampTextView);
         bindRecylerView();
     }
 
@@ -51,14 +58,18 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                JSONObject rates, timeStamps;
+                JSONObject rates;
+                long timestamp;
 
                 try {
                     rates = root.getJSONObject("rates");
+                    timestamp = root.getLong("timestamp");
                 } catch (JSONException e) {
                     Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                setTimestamp(timestamp);
 
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
                 ForexAdapter adapter = new ForexAdapter(rates);
@@ -72,6 +83,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, new String(responseBody), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setTimestamp(long timestamp){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String datetime = format.format(new Date(timestamp * 1000));
+        _timestampTextView.setText("Tanggal dan Waktu (UTC): "+datetime);
     }
 
     private void initSwipeRefreshLayout() {

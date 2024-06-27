@@ -16,16 +16,29 @@
             android:src="@drawable/background"
             android:scaleType="centerCrop">
         </ImageView>
-        <androidx.recyclerview.widget.RecyclerView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recylerView1"
-            android:padding="10dp">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timestampTextView"
+                android:padding="16dp"
+                android:text="@string/tanggal_dan_waktu"
+                android:textColor="#FFF">
+            </TextView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recylerView1"
+                android:padding="10dp">
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forex 2"
+            android:text="@string/forex_2"
             android:layout_gravity="center|right"
             android:rotation="90"
             android:textColor="#CCC"
